@@ -1,0 +1,178 @@
+const startupScreen = document.getElementById('startupScreen');
+const startupButton = document.getElementById('startupButton');
+const stage = document.getElementById('stage');
+const logo = document.querySelector('.logo');
+const mainMenu = document.getElementById('mainMenu');
+const startupDateTime = document.getElementById('startupDateTime');
+const menuTime = document.getElementById('menuTime');
+const workButton = document.getElementById('workButton');
+const workDropdown = document.getElementById('workDropdown');
+const aboutButton = document.getElementById('aboutButton');
+const aboutDropdown = document.getElementById('aboutDropdown');
+const contactButton = document.getElementById('contactButton');
+const contactDropdown = document.getElementById('contactDropdown');
+const menuButtons = [aboutButton, workButton, contactButton];
+const dropdowns = [aboutDropdown, workDropdown, contactDropdown];
+
+// Function to format date/time
+function formatDateTime() {
+  const now = new Date();
+  const day = now.getDate();
+  const month = now.toLocaleString('en-US', { month: 'short' });
+  const year = now.getFullYear();
+  const time = now.toLocaleString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+  return `${day} ${month} ${year}, ${time}`;
+}
+
+function formatTime() {
+  const now = new Date();
+  return now.toLocaleString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+}
+
+// Set initial date and time
+startupDateTime.textContent = formatDateTime();
+menuTime.textContent = formatDateTime();
+
+// Update menu time every second
+setInterval(() => {
+  menuTime.textContent = formatDateTime();
+}, 1000);
+
+// Handle startup screen OK button click
+startupButton.addEventListener('click', () => {
+  // Play startup sound
+  const audio = new Audio('startup.mp3');
+  audio.play().catch(e => console.log('Audio play failed:', e));
+
+  startupScreen.classList.add('fade-out');
+  // After text fades out, wait 1 second then start intro
+  setTimeout(() => {
+    startupScreen.classList.add('intro-ready');
+    // Also force hide with display for immediate effect
+    startupScreen.style.display = 'none';
+
+    // Show logo and start its animation sequence
+    logo.style.visibility = 'visible';
+    logo.style.display = 'block';
+    logo.style.zIndex = '2';
+
+    // Force gif to restart by briefly changing src
+    const originalSrc = logo.src;
+    logo.src = '';
+    logo.src = originalSrc;
+
+    // Hide logo after 3 seconds and show main menu
+    setTimeout(() => {
+      logo.style.visibility = 'hidden';
+      // Show main menu after logo disappears
+      setTimeout(() => {
+        mainMenu.classList.add('show');
+        menuTime.classList.add('show');
+      }, 500);
+    }, 3000);
+  }, 1000);
+});
+
+// Fade out logo on click (existing functionality)
+window.addEventListener('click', (e) => {
+  // Only trigger if startup screen is already hidden and click is not on startup elements
+  if (startupScreen.classList.contains('fade-out') && !startupScreen.contains(e.target)) {
+    stage.classList.add('fade-out');
+    // Optional: add callback here after fade to load menu
+    // setTimeout(() => { ... }, 1000);
+  }
+}, { once: false });
+
+// Function to clear all active states
+function clearActiveStates() {
+  menuButtons.forEach(button => {
+    button.classList.remove('active');
+  });
+  dropdowns.forEach(dropdown => {
+    dropdown.classList.remove('show');
+  });
+}
+
+// Function to position dropdown relative to a button
+function positionDropdown(button, dropdown) {
+  if (dropdown.classList.contains('show')) {
+    const buttonRect = button.getBoundingClientRect();
+    const iconRect = button.querySelector('.menu-icon').getBoundingClientRect();
+
+    // Position dropdown directly under the button icon (40% more space)
+    dropdown.style.top = `${iconRect.bottom + 28}px`;
+    dropdown.style.left = `${iconRect.left}px`;
+  }
+}
+
+// Function to position all visible dropdowns
+function positionAllDropdowns() {
+  positionDropdown(aboutButton, aboutDropdown);
+  positionDropdown(workButton, workDropdown);
+  positionDropdown(contactButton, contactDropdown);
+}
+
+// Handle menu button clicks
+menuButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const wasActive = button.classList.contains('active');
+
+    // Clear all active states first
+    clearActiveStates();
+
+    // If this button wasn't active, make it active
+    if (!wasActive) {
+      button.classList.add('active');
+
+      // Show corresponding dropdown
+      if (button === aboutButton) {
+        aboutDropdown.classList.add('show');
+        positionDropdown(aboutButton, aboutDropdown);
+      } else if (button === workButton) {
+        workDropdown.classList.add('show');
+        positionDropdown(workButton, workDropdown);
+      } else if (button === contactButton) {
+        contactDropdown.classList.add('show');
+        positionDropdown(contactButton, contactDropdown);
+      }
+    }
+  });
+});
+
+// Close dropdown when clicking outside
+document.addEventListener('click', (e) => {
+  const isClickingMenuButton = menuButtons.some(button => button.contains(e.target));
+  const isClickingDropdown = dropdowns.some(dropdown => dropdown.contains(e.target));
+
+  if (!isClickingMenuButton && !isClickingDropdown) {
+    clearActiveStates();
+  }
+});
+
+// Reposition dropdowns on window resize
+window.addEventListener('resize', positionAllDropdowns);
+
+// Handle folder item clicks
+document.getElementById('project1').addEventListener('click', () => {
+  window.open('https://www.matteblackdept.com/', '_blank');
+});
+
+document.getElementById('project2').addEventListener('click', () => {
+  window.open('https://www.minuarchive.com/coming-soon', '_blank');
+});
+
+document.getElementById('project3').addEventListener('click', () => {
+  window.open('https://x.com/klyra', '_blank');
+});
+
+document.getElementById('social').addEventListener('click', () => {
+  window.open('https://www.instagram.com/ryansimarchive/?hl=en', '_blank');
+});
+
+document.getElementById('resume').addEventListener('click', () => {
+  window.open('https://x.com/ryansimarchive', '_blank');
+});
+
+document.getElementById('email').addEventListener('click', () => {
+  window.location.href = 'mailto:ryan@matteblackdept.com';
+});

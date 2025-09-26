@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Ryan Sim</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+
+    <link rel="preload" href="bg.gif" as="image" />
+    <link rel="preload" href="logo.gif" as="image" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="startup-screen" id="startupScreen">
+      <div class="startup-header">
+        <div class="startup-title">Sign in to Ryan Sim Portfolio</div>
+        <div class="startup-datetime" id="startupDateTime"></div>
+      </div>
+
+      <div class="startup-content">
+        <div class="startup-line top"></div>
+        <div class="startup-message">
+          The system is up to date! (version 4.55)<br>
+          Would you like to start up normally?
+        </div>
+
+        <button class="startup-button" id="startupButton">OK</button>
+
+        <div class="startup-line bottom"></div>
+      </div>
+    </div>
+
+    <main class="stage" id="stage">
+      <img class="logo" src="logo.gif" alt="Site logo" />
+    </main>
+
+    <div class="menu-time" id="menuTime"></div>
+
+    <nav class="main-menu" id="mainMenu">
+      <button class="menu-button" id="aboutButton">
+        <img src="icons/about_me_icon.png" alt="About Me" class="menu-icon">
+        <span class="menu-text">About Me</span>
+      </button>
+      <button class="menu-button" id="workButton">
+        <img src="icons/my_work_icon.png" alt="My Work" class="menu-icon">
+        <span class="menu-text">My Work</span>
+      </button>
+      <button class="menu-button" id="contactButton">
+        <img src="icons/contact_icon.png" alt="Contact" class="menu-icon">
+        <span class="menu-text">Contact</span>
+      </button>
+    </nav>
+
+    <div class="work-dropdown" id="workDropdown">
+      <div class="dropdown-item" id="project1">
+        <img src="icons/agency.png" alt="Matte Black Dept" class="folder-icon">
+        <span class="folder-title">Matte Black Dept (Creative Agency)</span>
+      </div>
+      <div class="dropdown-item" id="project2">
+        <img src="icons/brand.png" alt="Minu" class="folder-icon">
+        <span class="folder-title">Minu (Brand)</span>
+      </div>
+      <div class="dropdown-item" id="project3">
+        <img src="icons/crypto.png" alt="Klyra" class="folder-icon">
+        <span class="folder-title">Klyra (Prime Crypto Brokerage)</span>
+      </div>
+    </div>
+
+    <div class="contact-dropdown" id="contactDropdown">
+      <div class="dropdown-item" id="email">
+        <img src="icons/email.png" alt="Email" class="folder-icon">
+        <span class="folder-title">Email</span>
+      </div>
+      <div class="dropdown-item" id="social">
+        <img src="icons/instagram.png" alt="Instagram" class="folder-icon">
+        <span class="folder-title">Instagram</span>
+      </div>
+      <div class="dropdown-item" id="resume">
+        <img src="icons/twitter.png" alt="Twitter" class="folder-icon">
+        <span class="folder-title">Twitter</span>
+      </div>
+    </div>
+
+    <div class="about-dropdown" id="aboutDropdown">
+      <div class="dropdown-item" id="bio">
+        <img src="icons/biography.png" alt="Biography" class="folder-icon">
+        <span class="folder-title">Biography</span>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
