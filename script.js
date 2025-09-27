@@ -91,6 +91,11 @@ function clearActiveStates() {
   dropdowns.forEach(dropdown => {
     dropdown.classList.remove('show');
   });
+
+  // Remove centering classes from main menu on mobile
+  if (window.innerWidth <= 768) {
+    mainMenu.classList.remove('center-about', 'center-work', 'center-contact');
+  }
 }
 
 // Function to position dropdown relative to a button
@@ -99,9 +104,16 @@ function positionDropdown(button, dropdown) {
     const buttonRect = button.getBoundingClientRect();
     const iconRect = button.querySelector('.menu-icon').getBoundingClientRect();
 
-    // Position dropdown directly under the button icon (40% more space)
-    dropdown.style.top = `${iconRect.bottom + 28}px`;
-    dropdown.style.left = `${iconRect.left}px`;
+    // On mobile, don't override CSS positioning - let CSS transforms handle it
+    if (window.innerWidth <= 768) {
+      // Clear any inline styles to let CSS handle positioning
+      dropdown.style.top = '';
+      dropdown.style.left = '';
+    } else {
+      // Desktop positioning
+      dropdown.style.top = `${iconRect.bottom + 28}px`;
+      dropdown.style.left = `${iconRect.left}px`;
+    }
   }
 }
 
@@ -123,6 +135,17 @@ menuButtons.forEach(button => {
     // If this button wasn't active, make it active
     if (!wasActive) {
       button.classList.add('active');
+
+      // Add centering class to main menu on mobile immediately
+      if (window.innerWidth <= 768) {
+        if (button === aboutButton) {
+          mainMenu.classList.add('center-about');
+        } else if (button === workButton) {
+          mainMenu.classList.add('center-work');
+        } else if (button === contactButton) {
+          mainMenu.classList.add('center-contact');
+        }
+      }
 
       // Show corresponding dropdown
       if (button === aboutButton) {
