@@ -322,16 +322,22 @@ body::before {
     width: 90vw;
     max-width: 400px;
     transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    -webkit-transform: translateX(-50%) !important;
+    -webkit-transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    will-change: opacity, visibility;
   }
 
   .work-dropdown:not(.show),
   .contact-dropdown:not(.show),
   .about-dropdown:not(.show) {
     transition: opacity 0.15s ease-out, visibility 0.15s ease-out;
+    -webkit-transition: opacity 0.15s ease-out, visibility 0.15s ease-out;
     position: fixed !important;
     top: calc(35vh + 80px) !important;
     left: 80% !important;
     transform: translateX(-50%) !important;
+    -webkit-transform: translateX(-50%) !important;
+    will-change: opacity, visibility;
   }
 
   .mobile-break {
@@ -446,18 +452,24 @@ body::before {
     justify-content: space-evenly;
     flex-wrap: nowrap;
     transition: transform 0.5s ease;
+    -webkit-transition: -webkit-transform 0.5s ease;
+    -webkit-transform: translateY(-50%);
+    will-change: transform;
   }
 
   .main-menu.center-about {
     transform: translateY(-50%) translateX(28%) !important;
+    -webkit-transform: translateY(-50%) translateX(28%) !important;
   }
 
   .main-menu.center-work {
     transform: translateY(-50%) translateX(-5%) !important;
+    -webkit-transform: translateY(-50%) translateX(-5%) !important;
   }
 
   .main-menu.center-contact {
     transform: translateY(-50%) translateX(-38%) !important;
+    -webkit-transform: translateY(-50%) translateX(-38%) !important;
   }
 
   .menu-button {
