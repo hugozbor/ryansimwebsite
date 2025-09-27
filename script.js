@@ -118,6 +118,7 @@ function positionAllDropdowns() {
 // Handle menu button clicks
 menuButtons.forEach(button => {
   button.addEventListener('click', () => {
+    playClickSound(); // Play click sound for menu buttons
     const wasActive = button.classList.contains('active');
 
     // If this button wasn't active, make it active
@@ -189,31 +190,88 @@ window.addEventListener('resize', positionAllDropdowns);
 
 // Handle folder item clicks
 document.getElementById('project1').addEventListener('click', () => {
+  playClickSound();
   window.open('https://www.matteblackdept.com/', '_blank');
 });
 
 document.getElementById('project2').addEventListener('click', () => {
+  playClickSound();
   window.open('https://www.minuarchive.com/coming-soon', '_blank');
 });
 
 document.getElementById('project3').addEventListener('click', () => {
+  playClickSound();
   window.open('https://x.com/klyra', '_blank');
 });
 
 document.getElementById('social').addEventListener('click', () => {
+  playClickSound();
   window.open('https://www.instagram.com/ryansimarchive/?hl=en', '_blank');
 });
 
 document.getElementById('resume').addEventListener('click', () => {
+  playClickSound();
   window.open('https://x.com/ryansimarchive', '_blank');
 });
 
 document.getElementById('email').addEventListener('click', () => {
+  playClickSound();
   window.location.href = 'mailto:ryan@matteblackdept.com';
 });
 
-// Play click sound on any click
-document.addEventListener('click', () => {
-  const clickAudio = new Audio('click.mp3');
+// Preload click audio for mobile performance
+const clickAudio = new Audio('click.mp3');
+clickAudio.preload = 'auto';
+
+// Function to play click sound
+function playClickSound() {
+  clickAudio.currentTime = 0; // Reset to start for rapid clicks
   clickAudio.play().catch(e => console.log('Click audio play failed:', e));
+}
+
+// Touch/swipe handling for mobile
+let touchStartX = 0;
+let touchStartY = 0;
+let touchEndX = 0;
+let touchEndY = 0;
+
+document.addEventListener('touchstart', (e) => {
+  touchStartX = e.changedTouches[0].screenX;
+  touchStartY = e.changedTouches[0].screenY;
 });
+
+document.addEventListener('touchend', (e) => {
+  touchEndX = e.changedTouches[0].screenX;
+  touchEndY = e.changedTouches[0].screenY;
+  handleSwipe();
+});
+
+function handleSwipe() {
+  const deltaX = touchEndX - touchStartX;
+  const deltaY = touchEndY - touchStartY;
+  const minSwipeDistance = 50;
+
+  // Only handle horizontal swipes that are primarily horizontal
+  if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > minSwipeDistance) {
+    // Only handle swipes on mobile and when menu is visible
+    if (window.innerWidth <= 768 && mainMenu.classList.contains('show')) {
+      const currentActive = document.querySelector('.menu-button.active');
+
+      if (deltaX > 0) {
+        // Swipe right - go to previous item
+        if (currentActive === workButton) {
+          aboutButton.click();
+        } else if (currentActive === contactButton) {
+          workButton.click();
+        }
+      } else {
+        // Swipe left - go to next item
+        if (currentActive === aboutButton) {
+          workButton.click();
+        } else if (currentActive === workButton) {
+          contactButton.click();
+        }
+      }
+    }
+  }
+}
