@@ -447,29 +447,31 @@ body::before {
     left: 2.5vw;
     right: 2.5vw;
     width: 95vw;
-    transform: translateY(-50%);
+    transform: translate3d(0, -50%, 0);
     gap: 1rem;
     justify-content: space-evenly;
     flex-wrap: nowrap;
     transition: transform 0.5s ease;
     -webkit-transition: -webkit-transform 0.5s ease;
-    -webkit-transform: translateY(-50%);
+    -webkit-transform: translate3d(0, -50%, 0);
     will-change: transform;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
   }
 
   .main-menu.center-about {
-    transform: translateY(-50%) translateX(28%) !important;
-    -webkit-transform: translateY(-50%) translateX(28%) !important;
+    transform: translate3d(28%, -50%, 0) !important;
+    -webkit-transform: translate3d(28%, -50%, 0) !important;
   }
 
   .main-menu.center-work {
-    transform: translateY(-50%) translateX(-5%) !important;
-    -webkit-transform: translateY(-50%) translateX(-5%) !important;
+    transform: translate3d(-5%, -50%, 0) !important;
+    -webkit-transform: translate3d(-5%, -50%, 0) !important;
   }
 
   .main-menu.center-contact {
-    transform: translateY(-50%) translateX(-38%) !important;
-    -webkit-transform: translateY(-50%) translateX(-38%) !important;
+    transform: translate3d(-38%, -50%, 0) !important;
+    -webkit-transform: translate3d(-38%, -50%, 0) !important;
   }
 
   .menu-button {
