@@ -449,15 +449,15 @@ body::before {
   }
 
   .main-menu.center-about {
-    transform: translateY(-50%) translateX(33.33%) !important;
+    transform: translateY(-50%) translateX(28%) !important;
   }
 
   .main-menu.center-work {
-    transform: translateY(-50%) translateX(0%) !important;
+    transform: translateY(-50%) translateX(-5%) !important;
   }
 
   .main-menu.center-contact {
-    transform: translateY(-50%) translateX(-33.33%) !important;
+    transform: translateY(-50%) translateX(-38%) !important;
   }
 
   .menu-button {
