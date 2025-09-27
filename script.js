@@ -92,28 +92,19 @@ function clearActiveStates() {
     dropdown.classList.remove('show');
   });
 
-  // Remove centering classes from main menu on mobile
-  if (window.innerWidth <= 768) {
-    mainMenu.classList.remove('center-about', 'center-work', 'center-contact');
-  }
+  // Remove centering classes on mobile too
+  mainMenu.classList.remove('center-about', 'center-work', 'center-contact');
 }
 
-// Function to position dropdown relative to a button
+// Function to position dropdown relative to a button (desktop only)
 function positionDropdown(button, dropdown) {
-  if (dropdown.classList.contains('show')) {
+  if (dropdown.classList.contains('show') && window.innerWidth > 768) {
     const buttonRect = button.getBoundingClientRect();
     const iconRect = button.querySelector('.menu-icon').getBoundingClientRect();
 
-    // On mobile, don't override CSS positioning - let CSS transforms handle it
-    if (window.innerWidth <= 768) {
-      // Clear any inline styles to let CSS handle positioning
-      dropdown.style.top = '';
-      dropdown.style.left = '';
-    } else {
-      // Desktop positioning
-      dropdown.style.top = `${iconRect.bottom + 28}px`;
-      dropdown.style.left = `${iconRect.left}px`;
-    }
+    // Position dropdown directly under the button icon
+    dropdown.style.top = `${iconRect.bottom + 28}px`;
+    dropdown.style.left = `${iconRect.left}px`;
   }
 }
 
@@ -129,15 +120,17 @@ menuButtons.forEach(button => {
   button.addEventListener('click', () => {
     const wasActive = button.classList.contains('active');
 
-    // Clear all active states first
-    clearActiveStates();
-
     // If this button wasn't active, make it active
     if (!wasActive) {
-      button.classList.add('active');
-
-      // Add centering class to main menu on mobile immediately
       if (window.innerWidth <= 768) {
+        // Mobile: hide dropdown first, then slide icons
+        dropdowns.forEach(dropdown => dropdown.classList.remove('show'));
+        menuButtons.forEach(btn => btn.classList.remove('active'));
+
+        // Immediately start icon slide
+        mainMenu.classList.remove('center-about', 'center-work', 'center-contact');
+        button.classList.add('active');
+
         if (button === aboutButton) {
           mainMenu.classList.add('center-about');
         } else if (button === workButton) {
@@ -145,19 +138,36 @@ menuButtons.forEach(button => {
         } else if (button === contactButton) {
           mainMenu.classList.add('center-contact');
         }
-      }
 
-      // Show corresponding dropdown
-      if (button === aboutButton) {
-        aboutDropdown.classList.add('show');
-        positionDropdown(aboutButton, aboutDropdown);
-      } else if (button === workButton) {
-        workDropdown.classList.add('show');
-        positionDropdown(workButton, workDropdown);
-      } else if (button === contactButton) {
-        contactDropdown.classList.add('show');
-        positionDropdown(contactButton, contactDropdown);
+        // Wait for menu slide to complete before showing dropdown
+        setTimeout(() => {
+          if (button === aboutButton) {
+            aboutDropdown.classList.add('show');
+          } else if (button === workButton) {
+            workDropdown.classList.add('show');
+          } else if (button === contactButton) {
+            contactDropdown.classList.add('show');
+          }
+        }, 300);
+      } else {
+        // Desktop - clear and show immediately
+        clearActiveStates();
+        button.classList.add('active');
+
+        if (button === aboutButton) {
+          aboutDropdown.classList.add('show');
+          positionDropdown(aboutButton, aboutDropdown);
+        } else if (button === workButton) {
+          workDropdown.classList.add('show');
+          positionDropdown(workButton, workDropdown);
+        } else if (button === contactButton) {
+          contactDropdown.classList.add('show');
+          positionDropdown(contactButton, contactDropdown);
+        }
       }
+    } else {
+      // If clicking the same button, just clear states
+      clearActiveStates();
     }
   });
 });

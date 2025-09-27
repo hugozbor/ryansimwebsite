@@ -315,59 +315,34 @@ body::before {
   .work-dropdown,
   .contact-dropdown,
   .about-dropdown {
-    top: calc(35vh + 60px);
-    left: 42vw;
-    transform: translateX(-50%) translateY(-20px);
-    transition: all 0.5s ease-in-out;
+    position: fixed !important;
+    top: calc(35vh + 80px) !important;
+    left: 80% !important;
+    transform: translateX(-50%) !important;
+    width: 90vw;
+    max-width: 400px;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
   }
 
-  .work-dropdown.show,
-  .contact-dropdown.show,
-  .about-dropdown.show {
-    transform: translateX(-50%) translateY(0);
-    transition: all 0.5s ease-in-out;
+  .work-dropdown:not(.show),
+  .contact-dropdown:not(.show),
+  .about-dropdown:not(.show) {
+    transition: opacity 0.15s ease-out, visibility 0.15s ease-out;
+    position: fixed !important;
+    top: calc(35vh + 80px) !important;
+    left: 80% !important;
+    transform: translateX(-50%) !important;
   }
 
-  .main-menu.center-about .work-dropdown,
-  .main-menu.center-about .contact-dropdown,
-  .main-menu.center-about .about-dropdown {
-    transform: translateX(-50%) translateY(-20px) translateX(33.33vw);
-    transition: all 0.5s ease-in-out;
+  .mobile-break {
+    display: block;
   }
+}
 
-  .main-menu.center-about .work-dropdown.show,
-  .main-menu.center-about .contact-dropdown.show,
-  .main-menu.center-about .about-dropdown.show {
-    transform: translateX(-50%) translateY(0) translateX(33.33vw);
-    transition: all 0.5s ease-in-out;
-  }
-
-  .main-menu.center-work .work-dropdown,
-  .main-menu.center-work .contact-dropdown,
-  .main-menu.center-work .about-dropdown {
-    transform: translateX(-50%) translateY(-20px) translateX(0%);
-    transition: all 0.5s ease-in-out;
-  }
-
-  .main-menu.center-work .work-dropdown.show,
-  .main-menu.center-work .contact-dropdown.show,
-  .main-menu.center-work .about-dropdown.show {
-    transform: translateX(-50%) translateY(0) translateX(0%);
-    transition: all 0.5s ease-in-out;
-  }
-
-  .main-menu.center-contact .work-dropdown,
-  .main-menu.center-contact .contact-dropdown,
-  .main-menu.center-contact .about-dropdown {
-    transform: translateX(-50%) translateY(-20px) translateX(-33.33vw);
-    transition: all 0.5s ease-in-out;
-  }
-
-  .main-menu.center-contact .work-dropdown.show,
-  .main-menu.center-contact .contact-dropdown.show,
-  .main-menu.center-contact .about-dropdown.show {
-    transform: translateX(-50%) translateY(0) translateX(-33.33vw);
-    transition: all 0.5s ease-in-out;
+/* Hide mobile breaks on desktop */
+@media (min-width: 769px) {
+  .mobile-break {
+    display: none;
   }
 }
 
@@ -424,6 +399,8 @@ body::before {
     padding-right: 2vw;
     align-items: center;
     text-align: center;
+    justify-content: flex-start;
+    padding-top: 25vh;
   }
 
   .logo {
