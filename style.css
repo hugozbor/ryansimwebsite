@@ -318,26 +318,26 @@ body::before {
     position: fixed !important;
     top: calc(35vh + 80px) !important;
     left: 80% !important;
-    transform: translateX(-50%) !important;
+    transform: translate3d(-50%, 0, 0) !important;
     width: 90vw;
     max-width: 400px;
-    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-    -webkit-transform: translateX(-50%) !important;
-    -webkit-transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out !important;
+    -webkit-transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out !important;
     will-change: opacity, visibility;
+    -webkit-backface-visibility: hidden;
   }
 
   .work-dropdown:not(.show),
   .contact-dropdown:not(.show),
   .about-dropdown:not(.show) {
-    transition: opacity 0.15s ease-out, visibility 0.15s ease-out;
-    -webkit-transition: opacity 0.15s ease-out, visibility 0.15s ease-out;
+    transition: opacity 0.15s ease-out, visibility 0.15s ease-out !important;
+    -webkit-transition: opacity 0.15s ease-out, visibility 0.15s ease-out !important;
     position: fixed !important;
     top: calc(35vh + 80px) !important;
     left: 80% !important;
-    transform: translateX(-50%) !important;
-    -webkit-transform: translateX(-50%) !important;
+    transform: translate3d(-50%, 0, 0) !important;
     will-change: opacity, visibility;
+    -webkit-backface-visibility: hidden;
   }
 
   .mobile-break {
@@ -451,12 +451,13 @@ body::before {
     gap: 1rem;
     justify-content: space-evenly;
     flex-wrap: nowrap;
-    transition: transform 0.5s ease;
-    -webkit-transition: -webkit-transform 0.5s ease;
-    -webkit-transform: translate3d(0, -50%, 0);
+    transition: transform 0.5s ease !important;
+    -webkit-transition: -webkit-transform 0.5s ease !important;
     will-change: transform;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
   }
 
   .main-menu.center-about {
