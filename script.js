@@ -127,17 +127,19 @@ menuButtons.forEach(button => {
         dropdowns.forEach(dropdown => dropdown.classList.remove('show'));
         menuButtons.forEach(btn => btn.classList.remove('active'));
 
-        // Immediately start icon slide
-        mainMenu.classList.remove('center-about', 'center-work', 'center-contact');
-        button.classList.add('active');
+        // Start icon slide after brief delay for fade-out
+        setTimeout(() => {
+          mainMenu.classList.remove('center-about', 'center-work', 'center-contact');
+          button.classList.add('active');
 
-        if (button === aboutButton) {
-          mainMenu.classList.add('center-about');
-        } else if (button === workButton) {
-          mainMenu.classList.add('center-work');
-        } else if (button === contactButton) {
-          mainMenu.classList.add('center-contact');
-        }
+          if (button === aboutButton) {
+            mainMenu.classList.add('center-about');
+          } else if (button === workButton) {
+            mainMenu.classList.add('center-work');
+          } else if (button === contactButton) {
+            mainMenu.classList.add('center-contact');
+          }
+        }, 50);
 
         // Wait for menu slide to complete before showing dropdown
         setTimeout(() => {
@@ -208,4 +210,10 @@ document.getElementById('resume').addEventListener('click', () => {
 
 document.getElementById('email').addEventListener('click', () => {
   window.location.href = 'mailto:ryan@matteblackdept.com';
+});
+
+// Play click sound on any click
+document.addEventListener('click', () => {
+  const clickAudio = new Audio('click.mp3');
+  clickAudio.play().catch(e => console.log('Click audio play failed:', e));
 });
