@@ -436,7 +436,7 @@ function closeGallery() {
     mainMenu.style.display = 'flex';
     menuTime.style.display = 'block';
     stage.style.display = 'block';
-  }, 300);
+  }, 500);
 }
 
 // Function to open lightbox

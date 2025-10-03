@@ -609,7 +609,7 @@ body::before {
   flex-direction: column;
   z-index: 1000;
   opacity: 0;
-  transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.5s ease-in-out;
   overflow-y: auto;
 }
 
@@ -640,6 +640,14 @@ body::before {
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255,255,255,0.1);
   z-index: 10;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.6s ease-out 0.2s, transform 0.6s ease-out 0.2s;
+}
+
+.gallery-screen.show .gallery-header {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .gallery-title {
@@ -672,6 +680,14 @@ body::before {
   justify-content: center;
   align-items: center;
   padding: 4rem 2rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out 0.4s, transform 0.6s ease-out 0.4s;
+}
+
+.gallery-screen.show .gallery-loading {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .loading-text {
@@ -701,6 +717,14 @@ body::before {
   padding: 2rem;
   max-width: 1400px;
   margin: 0 auto;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out 0.4s, transform 0.6s ease-out 0.4s;
+}
+
+.gallery-screen.show .gallery-grid {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .gallery-item {
@@ -961,37 +985,22 @@ body::before {
 .go-back-button {
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
-  padding: 0.8rem 1.5rem;
+  padding: 0;
   background: transparent;
-  border: 1px solid rgba(255,255,255,0.3);
-  border-radius: 4px;
+  border: none;
   color: #fff;
   font-family: inherit;
   font-size: 1rem;
   cursor: pointer;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
-  box-shadow: 0 0 10px rgba(255,255,255,0.2);
+  text-shadow: 0 0 5px rgba(255,255,255,0.3);
   transition: all 0.3s ease;
   position: relative;
-  overflow: hidden;
 }
 
 .go-back-button:hover {
-  box-shadow: 0 0 25px rgba(255,255,255,0.6), 0 0 50px rgba(255,255,255,0.3);
-  text-shadow: 0 0 8px rgba(255,255,255,0.8);
-  border-color: rgba(255,255,255,0.6);
+  text-shadow: 0 0 15px rgba(255,255,255,0.8), 0 0 30px rgba(255,255,255,0.5);
   transform: translateY(-2px);
-}
-
-.go-back-button:hover::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(255,255,255,0.1);
-  pointer-events: none;
+  color: rgba(255,255,255,0.95);
 }
 
 @media (max-width: 768px) {
