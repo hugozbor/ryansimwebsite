@@ -280,17 +280,17 @@ function showDiscScreen() {
 function goBackToMenu() {
   playClickSound();
 
-  // Hide disc screen
+  // Hide disc screen with fade out
   discScreen.classList.remove('show');
 
-  // After fade out, show menu again
+  // After fade out animation completes, show menu again
   setTimeout(() => {
     discScreen.style.display = 'none';
     mainMenu.style.display = 'flex';
     menuTime.style.display = 'block';
     stage.style.display = 'block';
     clearActiveStates();
-  }, 300);
+  }, 500);
 }
 
 // Handle go back button click
