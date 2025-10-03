@@ -465,28 +465,28 @@ body::before {
   }
 
   .main-menu.center-about {
-    transform: translate3d(28%, -50%, 0) !important;
-    -webkit-transform: translate3d(28%, -50%, 0) !important;
+    transform: translate3d(40%, -50%, 0) !important;
+    -webkit-transform: translate3d(40%, -50%, 0) !important;
   }
 
   .main-menu.center-work {
-    transform: translate3d(-5%, -50%, 0) !important;
-    -webkit-transform: translate3d(-5%, -50%, 0) !important;
+    transform: translate3d(20%, -50%, 0) !important;
+    -webkit-transform: translate3d(20%, -50%, 0) !important;
   }
 
   .main-menu.center-games {
-    transform: translate3d(-19%, -50%, 0) !important;
-    -webkit-transform: translate3d(-19%, -50%, 0) !important;
+    transform: translate3d(0%, -50%, 0) !important;
+    -webkit-transform: translate3d(0%, -50%, 0) !important;
   }
 
   .main-menu.center-gallery {
-    transform: translate3d(-32%, -50%, 0) !important;
-    -webkit-transform: translate3d(-32%, -50%, 0) !important;
+    transform: translate3d(-20%, -50%, 0) !important;
+    -webkit-transform: translate3d(-20%, -50%, 0) !important;
   }
 
   .main-menu.center-contact {
-    transform: translate3d(-45%, -50%, 0) !important;
-    -webkit-transform: translate3d(-45%, -50%, 0) !important;
+    transform: translate3d(-40%, -50%, 0) !important;
+    -webkit-transform: translate3d(-40%, -50%, 0) !important;
   }
 
   .menu-button {

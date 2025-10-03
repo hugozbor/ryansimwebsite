@@ -376,8 +376,10 @@ function renderGallery(media) {
 
 // Function to show gallery
 async function showGallery() {
-  // Clear active states first
-  clearActiveStates();
+  // Only clear active states on desktop, or if not currently animating on mobile
+  if (window.innerWidth > 768 || !galleryButton.classList.contains('active')) {
+    clearActiveStates();
+  }
 
   // Hide main elements
   mainMenu.style.display = 'none';
