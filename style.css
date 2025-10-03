@@ -319,7 +319,7 @@ body::before {
   .games-dropdown {
     position: fixed !important;
     top: calc(35vh + 80px) !important;
-    left: 80% !important;
+    left: 60% !important;
     transform: translate3d(-50%, 0, 0) !important;
     width: 90vw;
     max-width: 400px;
@@ -337,7 +337,7 @@ body::before {
     -webkit-transition: opacity 0.15s ease-out, visibility 0.15s ease-out !important;
     position: fixed !important;
     top: calc(35vh + 80px) !important;
-    left: 80% !important;
+    left: 60% !important;
     transform: translate3d(-50%, 0, 0) !important;
     will-change: opacity, visibility;
     -webkit-backface-visibility: hidden;
@@ -570,15 +570,24 @@ body::before {
   .dropdown-item {
     gap: 0.8rem;
     padding: 0.8rem;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: relative;
   }
 
   .folder-icon {
     width: 40px;
     height: 40px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .folder-title {
     font-size: 0.9rem;
+    margin-left: calc(50% + 20px + 0.4rem);
+    text-align: left;
   }
 }
 
@@ -650,6 +659,30 @@ body::before {
 .gallery-close:hover {
   transform: scale(1.2);
   text-shadow: 0 0 10px rgba(255,255,255,0.8);
+}
+
+.gallery-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 2rem;
+}
+
+.loading-text {
+  color: #fff;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+  animation: loadingPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes loadingPulse {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 .gallery-grid {
@@ -976,4 +1009,5 @@ body::before {
   .lightbox-close { transition: none; }
   .lightbox-prev { transition: none; }
   .lightbox-next { transition: none; }
+  .loading-text { animation: none; opacity: 1; }
 }

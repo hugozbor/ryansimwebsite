@@ -16,6 +16,7 @@ const gamesDropdown = document.getElementById('gamesDropdown');
 const galleryButton = document.getElementById('galleryButton');
 const galleryScreen = document.getElementById('galleryScreen');
 const galleryGrid = document.getElementById('galleryGrid');
+const galleryLoading = document.getElementById('galleryLoading');
 const galleryClose = document.getElementById('galleryClose');
 const lightbox = document.getElementById('lightbox');
 const lightboxImage = document.getElementById('lightboxImage');
@@ -391,14 +392,29 @@ async function showGallery() {
 
   // Load images if not loaded yet
   if (galleryImages.length === 0) {
+    // Show loading text
+    galleryLoading.style.display = 'flex';
+    galleryGrid.style.display = 'none';
+
     try {
       galleryImages = await loadGalleryImages();
       renderGallery(galleryImages);
+
+      // Hide loading text and show grid
+      galleryLoading.style.display = 'none';
+      galleryGrid.style.display = 'grid';
     } catch (e) {
       console.log('Could not load gallery images:', e);
-      // Fallback: show placeholder or error message
+
+      // Hide loading text and show error message
+      galleryLoading.style.display = 'none';
+      galleryGrid.style.display = 'block';
       galleryGrid.innerHTML = '<p style="color: #fff; text-align: center; padding: 2rem;">No images found in gallery/ directory</p>';
     }
+  } else {
+    // Images already loaded, hide loading and show grid
+    galleryLoading.style.display = 'none';
+    galleryGrid.style.display = 'grid';
   }
 
   setTimeout(() => {
