@@ -116,9 +116,10 @@ function positionDropdown(button, dropdown) {
     const buttonRect = button.getBoundingClientRect();
     const iconRect = button.querySelector('.menu-icon').getBoundingClientRect();
 
-    // Position dropdown directly under the button icon
+    // Position dropdown directly under the button icon, centered
     dropdown.style.top = `${iconRect.bottom + 28}px`;
-    dropdown.style.left = `${iconRect.left}px`;
+    dropdown.style.left = `${iconRect.left + iconRect.width/2}px`;
+    dropdown.style.transform = 'translateX(-50%)';
   }
 }
 
@@ -390,12 +391,16 @@ async function showGallery() {
   // Show gallery screen
   galleryScreen.style.display = 'flex';
 
+  // Always show loading text first
+  galleryLoading.style.display = 'flex';
+  galleryGrid.style.display = 'none';
+
+  setTimeout(() => {
+    galleryScreen.classList.add('show');
+  }, 10);
+
   // Load images if not loaded yet
   if (galleryImages.length === 0) {
-    // Show loading text
-    galleryLoading.style.display = 'flex';
-    galleryGrid.style.display = 'none';
-
     try {
       galleryImages = await loadGalleryImages();
       renderGallery(galleryImages);
@@ -412,14 +417,12 @@ async function showGallery() {
       galleryGrid.innerHTML = '<p style="color: #fff; text-align: center; padding: 2rem;">No images found in gallery/ directory</p>';
     }
   } else {
-    // Images already loaded, hide loading and show grid
-    galleryLoading.style.display = 'none';
-    galleryGrid.style.display = 'grid';
+    // Images already loaded, but still show loading briefly for UX
+    setTimeout(() => {
+      galleryLoading.style.display = 'none';
+      galleryGrid.style.display = 'grid';
+    }, 500);
   }
-
-  setTimeout(() => {
-    galleryScreen.classList.add('show');
-  }, 10);
 }
 
 // Function to close gallery
