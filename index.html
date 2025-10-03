@@ -45,6 +45,14 @@
         <img src="icons/my_work_icon.png" alt="My Work" class="menu-icon">
         <span class="menu-text">My Work</span>
       </button>
+      <button class="menu-button" id="gamesButton">
+        <img src="icons/games_icon.png" alt="Games" class="menu-icon">
+        <span class="menu-text">Games</span>
+      </button>
+      <button class="menu-button" id="galleryButton">
+        <img src="icons/gallery_icon.png" alt="Gallery" class="menu-icon">
+        <span class="menu-text">Gallery</span>
+      </button>
       <button class="menu-button" id="contactButton">
         <img src="icons/contact_icon.png" alt="Contact" class="menu-icon">
         <span class="menu-text">Contact</span>
@@ -85,6 +93,49 @@
       <div class="dropdown-item" id="bio">
         <img src="icons/biography.png" alt="Biography" class="folder-icon">
         <span class="folder-title">Biography</span>
+      </div>
+    </div>
+
+    <div class="games-dropdown" id="gamesDropdown">
+      <div class="dropdown-item" id="assassinsCreed">
+        <img src="icons/creed.png" alt="Assassin's Creed" class="folder-icon">
+        <span class="folder-title">Assassin's Creed</span>
+      </div>
+      <div class="dropdown-item" id="nba2k16">
+        <img src="icons/2K16.png" alt="NBA 2K16" class="folder-icon">
+        <span class="folder-title">NBA 2K16</span>
+      </div>
+    </div>
+
+    <div class="gallery-screen" id="galleryScreen">
+      <div class="gallery-header">
+        <h2 class="gallery-title">Gallery</h2>
+        <button class="gallery-close" id="galleryClose">×</button>
+      </div>
+      <div class="gallery-grid" id="galleryGrid">
+        <!-- Photos will be dynamically loaded here -->
+      </div>
+    </div>
+
+    <div class="lightbox" id="lightbox">
+      <div class="lightbox-content">
+        <button class="lightbox-close" id="lightboxClose">×</button>
+        <button class="lightbox-prev" id="lightboxPrev">‹</button>
+        <button class="lightbox-next" id="lightboxNext">›</button>
+      </div>
+    </div>
+
+    <div class="disc-screen" id="discScreen">
+      <div class="disc-content">
+        <div class="disc-line top"></div>
+        <div class="disc-message">
+          Please insert disc<br>
+          (This was my favourite game tho)
+        </div>
+
+        <button class="go-back-button" id="goBackButton">Go back</button>
+
+        <div class="disc-line bottom"></div>
       </div>
     </div>
 
