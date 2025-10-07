@@ -312,6 +312,10 @@ body::before {
   transition: all 0.5s ease-in-out;
 }
 
+.contact-dropdown {
+  gap: 2.5rem;
+}
+
 @media (max-width: 768px) {
   .work-dropdown,
   .contact-dropdown,
@@ -904,7 +908,7 @@ body::before {
 
 @media (max-width: 480px) {
   .gallery-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 

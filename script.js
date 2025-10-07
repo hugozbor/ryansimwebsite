@@ -117,7 +117,7 @@ function positionDropdown(button, dropdown) {
     const iconRect = button.querySelector('.menu-icon').getBoundingClientRect();
 
     // Position dropdown directly under the button icon, centered
-    dropdown.style.top = `${iconRect.bottom + 28}px`;
+    dropdown.style.top = `${iconRect.bottom + 68}px`;
     dropdown.style.left = `${iconRect.left + iconRect.width/2}px`;
     dropdown.style.transform = 'translateX(-50%)';
   }
@@ -251,18 +251,22 @@ document.getElementById('email').addEventListener('click', () => {
 // Handle game clicks
 document.getElementById('assassinsCreed').addEventListener('click', () => {
   playClickSound();
-  showDiscScreen();
+  showDiscScreen('(My favourite line: "Nothing is true. Everything is permitted")');
 });
 
 document.getElementById('nba2k16').addEventListener('click', () => {
   playClickSound();
-  showDiscScreen();
+  showDiscScreen('(This was my favourite game tho)');
 });
 
 // Function to show disc insertion screen
-function showDiscScreen() {
+function showDiscScreen(message) {
   // Clear active states first
   clearActiveStates();
+
+  // Update the disc message
+  const discMessage = document.querySelector('.disc-message');
+  discMessage.innerHTML = `Please insert disc<br>${message}`;
 
   // Hide everything except disc screen
   mainMenu.style.display = 'none';
