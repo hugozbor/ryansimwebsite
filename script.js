@@ -1,3 +1,8 @@
+// Lazy load background after initial render
+window.addEventListener('load', () => {
+  document.body.classList.add('loaded');
+});
+
 const startupScreen = document.getElementById('startupScreen');
 const startupButton = document.getElementById('startupButton');
 const stage = document.getElementById('stage');
@@ -47,10 +52,24 @@ function formatTime() {
 startupDateTime.textContent = formatDateTime();
 menuTime.textContent = formatDateTime();
 
-// Update menu time every second
-setInterval(() => {
+// Update menu time every second (pause when tab inactive)
+let timeIntervalId = setInterval(() => {
   menuTime.textContent = formatDateTime();
 }, 1000);
+
+// Optimize time updates - pause when tab is hidden
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    clearInterval(timeIntervalId);
+  } else {
+    // Update immediately when tab becomes visible
+    menuTime.textContent = formatDateTime();
+    // Restart interval
+    timeIntervalId = setInterval(() => {
+      menuTime.textContent = formatDateTime();
+    }, 1000);
+  }
+});
 
 // Handle startup screen OK button click
 startupButton.addEventListener('click', () => {
@@ -310,8 +329,8 @@ async function loadGalleryImages() {
   const mediaExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'mp4'];
   const media = [];
 
-  // Try to load media with common naming patterns
-  for (let i = 1; i <= 50; i++) {
+  // Try to load media with common naming patterns (max 10 items)
+  for (let i = 1; i <= 10; i++) {
     for (const ext of mediaExtensions) {
       const mediaPath = `gallery/${i}.${ext}`;
       try {
@@ -548,12 +567,25 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// Preload click audio for mobile performance
-const clickAudio = new Audio('click.mp3');
-clickAudio.preload = 'auto';
+// Lazy load click audio on first user interaction
+let clickAudio;
+
+// Initialize audio on first touch/click for better mobile performance
+function initAudio() {
+  if (!clickAudio) {
+    clickAudio = new Audio('click.mp3');
+    clickAudio.preload = 'auto';
+  }
+}
+
+document.addEventListener('touchstart', initAudio, { once: true, passive: true });
+document.addEventListener('click', initAudio, { once: true });
 
 // Function to play click sound
 function playClickSound() {
+  if (!clickAudio) {
+    initAudio();
+  }
   clickAudio.currentTime = 0; // Reset to start for rapid clicks
   clickAudio.play().catch(e => console.log('Click audio play failed:', e));
 }
@@ -567,13 +599,13 @@ let touchEndY = 0;
 document.addEventListener('touchstart', (e) => {
   touchStartX = e.changedTouches[0].screenX;
   touchStartY = e.changedTouches[0].screenY;
-});
+}, { passive: true });
 
 document.addEventListener('touchend', (e) => {
   touchEndX = e.changedTouches[0].screenX;
   touchEndY = e.changedTouches[0].screenY;
   handleSwipe();
-});
+}, { passive: true });
 
 function handleSwipe() {
   const deltaX = touchEndX - touchStartX;
