@@ -30,6 +30,8 @@ const lightboxPrev = document.getElementById('lightboxPrev');
 const lightboxNext = document.getElementById('lightboxNext');
 const discScreen = document.getElementById('discScreen');
 const goBackButton = document.getElementById('goBackButton');
+const browserModal = document.getElementById('browserModal');
+const browserClose = document.getElementById('browserClose');
 const menuButtons = [aboutButton, workButton, gamesButton, galleryButton, contactButton];
 const dropdowns = [aboutDropdown, workDropdown, gamesDropdown, contactDropdown];
 
@@ -267,6 +269,12 @@ document.getElementById('email').addEventListener('click', () => {
   window.location.href = 'mailto:ryan@matteblackdept.com';
 });
 
+// Handle Biography click to show browser modal
+document.getElementById('bio').addEventListener('click', () => {
+  playClickSound();
+  showBrowserModal();
+});
+
 // Handle game clicks
 document.getElementById('assassinsCreed').addEventListener('click', () => {
   playClickSound();
@@ -318,6 +326,53 @@ function goBackToMenu() {
 
 // Handle go back button click
 goBackButton.addEventListener('click', goBackToMenu);
+
+// Browser modal functions
+function showBrowserModal() {
+  // Clear active states first
+  clearActiveStates();
+
+  // Hide main elements
+  mainMenu.style.display = 'none';
+  menuTime.style.display = 'none';
+  stage.style.display = 'none';
+
+  // Show browser modal with fade in
+  browserModal.style.display = 'flex';
+  setTimeout(() => {
+    browserModal.classList.add('show');
+  }, 10);
+}
+
+function closeBrowserModal() {
+  playClickSound();
+
+  browserModal.classList.remove('show');
+
+  setTimeout(() => {
+    browserModal.style.display = 'none';
+    mainMenu.style.display = 'flex';
+    menuTime.style.display = 'block';
+    stage.style.display = 'block';
+  }, 300);
+}
+
+// Handle browser close button click
+browserClose.addEventListener('click', closeBrowserModal);
+
+// Close browser modal when clicking outside the window
+browserModal.addEventListener('click', (e) => {
+  if (e.target === browserModal) {
+    closeBrowserModal();
+  }
+});
+
+// Close browser modal with Escape key
+document.addEventListener('keydown', (e) => {
+  if (browserModal.classList.contains('show') && e.key === 'Escape') {
+    closeBrowserModal();
+  }
+});
 
 // Gallery functionality
 let galleryImages = [];
