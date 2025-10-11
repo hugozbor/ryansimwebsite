@@ -1,6 +1,36 @@
-// Lazy load background after initial render
+// Site loading screen
+const siteLoadingScreen = document.getElementById('siteLoadingScreen');
+const siteLoadingBar = document.getElementById('siteLoadingBar');
+const siteLoadingPercentage = document.getElementById('siteLoadingPercentage');
+
+// Start site loading animation immediately
+let siteProgress = 0;
+const siteLoadingInterval = setInterval(() => {
+  // Increment progress
+  const increment = Math.floor(Math.random() * 8) + 2;
+  siteProgress = Math.min(siteProgress + increment, 95); // Stop at 95% until page loads
+
+  siteLoadingBar.style.width = siteProgress + '%';
+  siteLoadingPercentage.textContent = siteProgress + '%';
+
+  if (siteProgress >= 95) {
+    clearInterval(siteLoadingInterval);
+  }
+}, 100);
+
+// Complete loading when page is fully loaded
 window.addEventListener('load', () => {
   document.body.classList.add('loaded');
+
+  // Complete the loading bar
+  siteProgress = 100;
+  siteLoadingBar.style.width = '100%';
+  siteLoadingPercentage.textContent = '100%';
+
+  // Hide loading screen after a brief moment
+  setTimeout(() => {
+    siteLoadingScreen.classList.add('hidden');
+  }, 500);
 });
 
 const startupScreen = document.getElementById('startupScreen');
@@ -32,10 +62,6 @@ const discScreen = document.getElementById('discScreen');
 const goBackButton = document.getElementById('goBackButton');
 const browserModal = document.getElementById('browserModal');
 const browserClose = document.getElementById('browserClose');
-const browserLoading = document.getElementById('browserLoading');
-const browserContent = document.getElementById('browserContent');
-const loadingBar = document.getElementById('loadingBar');
-const loadingPercentage = document.getElementById('loadingPercentage');
 const menuButtons = [aboutButton, workButton, gamesButton, galleryButton, contactButton];
 const dropdowns = [aboutDropdown, workDropdown, gamesDropdown, contactDropdown];
 
@@ -341,45 +367,11 @@ function showBrowserModal() {
   menuTime.style.display = 'none';
   stage.style.display = 'none';
 
-  // Reset loading state
-  loadingBar.style.width = '0%';
-  loadingPercentage.textContent = '0%';
-  browserLoading.classList.remove('show');
-  browserContent.classList.remove('show');
-
   // Show browser modal with fade in
   browserModal.style.display = 'flex';
   setTimeout(() => {
     browserModal.classList.add('show');
-    // Start loading animation after modal appears
-    setTimeout(() => {
-      startBrowserLoading();
-    }, 300);
   }, 10);
-}
-
-// Simulate loading progress
-function startBrowserLoading() {
-  browserLoading.classList.add('show');
-  let progress = 0;
-
-  const loadingInterval = setInterval(() => {
-    // Random increment between 3-12% for realistic loading feel
-    const increment = Math.floor(Math.random() * 10) + 3;
-    progress = Math.min(progress + increment, 100);
-
-    loadingBar.style.width = progress + '%';
-    loadingPercentage.textContent = progress + '%';
-
-    if (progress >= 100) {
-      clearInterval(loadingInterval);
-      // Hide loading and show content
-      setTimeout(() => {
-        browserLoading.classList.remove('show');
-        browserContent.classList.add('show');
-      }, 300);
-    }
-  }, 150); // Update every 150ms
 }
 
 function closeBrowserModal() {

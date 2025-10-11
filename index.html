@@ -14,6 +14,15 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <div class="site-loading-screen" id="siteLoadingScreen">
+      <div class="site-loading-content">
+        <div class="site-loading-bar-container">
+          <div class="site-loading-bar" id="siteLoadingBar"></div>
+        </div>
+        <div class="site-loading-percentage" id="siteLoadingPercentage">0%</div>
+      </div>
+    </div>
+
     <div class="startup-screen" id="startupScreen">
       <div class="startup-header">
         <div class="startup-title">Sign in to Ryan Sim Portfolio</div>
@@ -156,14 +165,8 @@
           </div>
           <button class="browser-close" id="browserClose">×</button>
         </div>
-        <div class="browser-loading" id="browserLoading">
-          <div class="loading-bar-container">
-            <div class="loading-bar" id="loadingBar"></div>
-          </div>
-          <div class="loading-percentage" id="loadingPercentage">0%</div>
-        </div>
-        <div class="browser-content" id="browserContent">
-          <img src="wikipedia.webp" alt="Ryan Sim Wikipedia" class="wikipedia-image">
+        <div class="browser-content">
+          <img src="wikipedia.jpeg" alt="Ryan Sim Wikipedia" class="wikipedia-image">
         </div>
       </div>
     </div>
