@@ -668,6 +668,11 @@ document.addEventListener('click', initAudio, { once: true });
 
 // Function to play click sound
 function playClickSound() {
+  // Disable click sound on mobile (768px and below)
+  if (window.innerWidth <= 768) {
+    return;
+  }
+
   if (!clickAudio) {
     initAudio();
   }
