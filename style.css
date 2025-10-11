@@ -1281,7 +1281,7 @@ body.loaded::before {
   }
 
   .browser-tab {
-    padding: 0.3rem 0.6rem;
+    display: none;
   }
 
   .tab-text,
