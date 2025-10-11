@@ -32,6 +32,10 @@ const discScreen = document.getElementById('discScreen');
 const goBackButton = document.getElementById('goBackButton');
 const browserModal = document.getElementById('browserModal');
 const browserClose = document.getElementById('browserClose');
+const browserLoading = document.getElementById('browserLoading');
+const browserContent = document.getElementById('browserContent');
+const loadingBar = document.getElementById('loadingBar');
+const loadingPercentage = document.getElementById('loadingPercentage');
 const menuButtons = [aboutButton, workButton, gamesButton, galleryButton, contactButton];
 const dropdowns = [aboutDropdown, workDropdown, gamesDropdown, contactDropdown];
 
@@ -337,11 +341,45 @@ function showBrowserModal() {
   menuTime.style.display = 'none';
   stage.style.display = 'none';
 
+  // Reset loading state
+  loadingBar.style.width = '0%';
+  loadingPercentage.textContent = '0%';
+  browserLoading.classList.remove('show');
+  browserContent.classList.remove('show');
+
   // Show browser modal with fade in
   browserModal.style.display = 'flex';
   setTimeout(() => {
     browserModal.classList.add('show');
+    // Start loading animation after modal appears
+    setTimeout(() => {
+      startBrowserLoading();
+    }, 300);
   }, 10);
+}
+
+// Simulate loading progress
+function startBrowserLoading() {
+  browserLoading.classList.add('show');
+  let progress = 0;
+
+  const loadingInterval = setInterval(() => {
+    // Random increment between 3-12% for realistic loading feel
+    const increment = Math.floor(Math.random() * 10) + 3;
+    progress = Math.min(progress + increment, 100);
+
+    loadingBar.style.width = progress + '%';
+    loadingPercentage.textContent = progress + '%';
+
+    if (progress >= 100) {
+      clearInterval(loadingInterval);
+      // Hide loading and show content
+      setTimeout(() => {
+        browserLoading.classList.remove('show');
+        browserContent.classList.add('show');
+      }, 300);
+    }
+  }, 150); // Update every 150ms
 }
 
 function closeBrowserModal() {

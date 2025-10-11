@@ -1173,12 +1173,59 @@ body.loaded::before {
   text-overflow: ellipsis;
 }
 
+.browser-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  max-width: 400px;
+  z-index: 5;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.browser-loading.show {
+  display: flex;
+}
+
+.loading-bar-container {
+  width: 100%;
+  height: 30px;
+  background: transparent;
+  border: 2px solid #d0d0d0;
+  box-shadow: 0 0 8px rgba(208, 208, 208, 0.3);
+  overflow: hidden;
+}
+
+.loading-bar {
+  height: 100%;
+  width: 0%;
+  background: #d0d0d0;
+  box-shadow: 0 0 15px rgba(208, 208, 208, 0.6);
+  transition: width 0.3s ease;
+}
+
+.loading-percentage {
+  color: #d0d0d0;
+  font-size: 1.5rem;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  text-shadow: 0 0 8px rgba(208, 208, 208, 0.5);
+}
+
 .browser-content {
   flex: 1;
   background: #000;
   overflow-y: auto;
   overflow-x: hidden;
   position: relative;
+  display: none;
+}
+
+.browser-content.show {
+  display: block;
 }
 
 .wikipedia-image {
@@ -1216,13 +1263,21 @@ body.loaded::before {
   .browser-url {
     padding: 0.3rem 0.6rem;
   }
+
+  .browser-loading {
+    width: 80%;
+  }
+
+  .loading-percentage {
+    font-size: 1.2rem;
+  }
 }
 
 @media (max-width: 480px) {
   .browser-window {
     width: 100vw;
     height: 100vh;
-    border-radius: 0;
+    border: none;
   }
 
   .browser-tab {
@@ -1234,6 +1289,18 @@ body.loaded::before {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .browser-loading {
+    width: 90%;
+  }
+
+  .loading-percentage {
+    font-size: 1rem;
+  }
+
+  .browser-close {
+    font-size: 1.3rem;
   }
 }
 
