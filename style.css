@@ -480,6 +480,7 @@ body.loaded::before {
   text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
   transition: all 0.3s ease;
   margin-left: calc(50% + 32px + 0.5rem);
+  white-space: nowrap;
 }
 
 .dropdown-item:hover {
@@ -1865,8 +1866,8 @@ mark {
   }
 
   .wiki-figure--right {
-    float: none;
-    margin: 8px auto;
+    float: right;
+    margin: 0 0 8px 12px;
     max-width: 150px;
   }
 

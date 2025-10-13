@@ -650,6 +650,17 @@ function initWikipediaPage() {
   const wikiEditLinks = document.querySelectorAll('.wiki-edit');
   const wikiSections = document.querySelectorAll('.wiki-section');
 
+  // Prevent form submission and blur on Enter
+  const wikiSearchForm = document.querySelector('.wiki-topbar__search');
+  if (wikiSearchForm) {
+    wikiSearchForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (wikiSearch) {
+        wikiSearch.blur();
+      }
+    });
+  }
+
   // Search functionality
   if (wikiSearch && wikiArticle) {
     wikiSearch.addEventListener('input', (e) => {
