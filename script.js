@@ -1,14 +1,11 @@
-// Site loading screen
 const siteLoadingScreen = document.getElementById('siteLoadingScreen');
 const siteLoadingBar = document.getElementById('siteLoadingBar');
 const siteLoadingPercentage = document.getElementById('siteLoadingPercentage');
 
-// Start site loading animation immediately
 let siteProgress = 0;
 const siteLoadingInterval = setInterval(() => {
-  // Increment progress
   const increment = Math.floor(Math.random() * 8) + 2;
-  siteProgress = Math.min(siteProgress + increment, 95); // Stop at 95% until page loads
+  siteProgress = Math.min(siteProgress + increment, 95);
 
   siteLoadingBar.style.width = siteProgress + '%';
   siteLoadingPercentage.textContent = siteProgress + '%';
@@ -18,16 +15,13 @@ const siteLoadingInterval = setInterval(() => {
   }
 }, 100);
 
-// Complete loading when page is fully loaded
 window.addEventListener('load', () => {
   document.body.classList.add('loaded');
 
-  // Complete the loading bar
   siteProgress = 100;
   siteLoadingBar.style.width = '100%';
   siteLoadingPercentage.textContent = '100%';
 
-  // Hide loading screen after a brief moment
   setTimeout(() => {
     siteLoadingScreen.classList.add('hidden');
   }, 500);
@@ -65,7 +59,6 @@ const browserClose = document.getElementById('browserClose');
 const menuButtons = [aboutButton, workButton, gamesButton, galleryButton, contactButton];
 const dropdowns = [aboutDropdown, workDropdown, gamesDropdown, contactDropdown];
 
-// Function to format date/time
 function formatDateTime() {
   const now = new Date();
   const day = now.getDate();
@@ -80,56 +73,43 @@ function formatTime() {
   return now.toLocaleString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
 }
 
-// Set initial date and time
 startupDateTime.textContent = formatDateTime();
 menuTime.textContent = formatDateTime();
 
-// Update menu time every second (pause when tab inactive)
 let timeIntervalId = setInterval(() => {
   menuTime.textContent = formatDateTime();
 }, 1000);
 
-// Optimize time updates - pause when tab is hidden
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) {
     clearInterval(timeIntervalId);
   } else {
-    // Update immediately when tab becomes visible
     menuTime.textContent = formatDateTime();
-    // Restart interval
     timeIntervalId = setInterval(() => {
       menuTime.textContent = formatDateTime();
     }, 1000);
   }
 });
 
-// Handle startup screen OK button click
 startupButton.addEventListener('click', () => {
-  // Play startup sound
   const audio = new Audio('startup.mp3');
-  audio.play().catch(e => console.log('Audio play failed:', e));
+  audio.play().catch(e => console.log('audio play failed:', e));
 
   startupScreen.classList.add('fade-out');
-  // After text fades out, wait 1 second then start intro
   setTimeout(() => {
     startupScreen.classList.add('intro-ready');
-    // Also force hide with display for immediate effect
     startupScreen.style.display = 'none';
 
-    // Show logo and start its animation sequence
     logo.style.visibility = 'visible';
     logo.style.display = 'block';
     logo.style.zIndex = '2';
 
-    // Force gif to restart by briefly changing src
     const originalSrc = logo.src;
     logo.src = '';
     logo.src = originalSrc;
 
-    // Hide logo after 3 seconds and show main menu
     setTimeout(() => {
       logo.style.visibility = 'hidden';
-      // Show main menu after logo disappears
       setTimeout(() => {
         mainMenu.classList.add('show');
         menuTime.classList.add('show');
@@ -138,17 +118,12 @@ startupButton.addEventListener('click', () => {
   }, 1000);
 });
 
-// Fade out logo on click (existing functionality)
 window.addEventListener('click', (e) => {
-  // Only trigger if startup screen is already hidden and click is not on startup elements
   if (startupScreen.classList.contains('fade-out') && !startupScreen.contains(e.target)) {
     stage.classList.add('fade-out');
-    // Optional: add callback here after fade to load menu
-    // setTimeout(() => { ... }, 1000);
   }
 }, { once: false });
 
-// Function to clear all active states
 function clearActiveStates() {
   menuButtons.forEach(button => {
     button.classList.remove('active');
@@ -157,24 +132,19 @@ function clearActiveStates() {
     dropdown.classList.remove('show');
   });
 
-  // Remove centering classes on mobile too
   mainMenu.classList.remove('center-about', 'center-work', 'center-games', 'center-gallery', 'center-contact');
 }
 
-// Function to position dropdown relative to a button (desktop only)
 function positionDropdown(button, dropdown) {
   if (dropdown.classList.contains('show') && window.innerWidth > 768) {
-    const buttonRect = button.getBoundingClientRect();
     const iconRect = button.querySelector('.menu-icon').getBoundingClientRect();
 
-    // Position dropdown directly under the button icon, centered
     dropdown.style.top = `${iconRect.bottom + 68}px`;
     dropdown.style.left = `${iconRect.left + iconRect.width/2}px`;
     dropdown.style.transform = 'translateX(-50%)';
   }
 }
 
-// Function to position all visible dropdowns
 function positionAllDropdowns() {
   positionDropdown(aboutButton, aboutDropdown);
   positionDropdown(workButton, workDropdown);
@@ -182,20 +152,16 @@ function positionAllDropdowns() {
   positionDropdown(contactButton, contactDropdown);
 }
 
-// Handle menu button clicks
 menuButtons.forEach(button => {
   button.addEventListener('click', () => {
-    playClickSound(); // Play click sound for menu buttons
+    playClickSound();
     const wasActive = button.classList.contains('active');
 
-    // If this button wasn't active, make it active
     if (!wasActive) {
       if (window.innerWidth <= 768) {
-        // Mobile: hide dropdown first, then slide icons
         dropdowns.forEach(dropdown => dropdown.classList.remove('show'));
         menuButtons.forEach(btn => btn.classList.remove('active'));
 
-        // Start icon slide after brief delay for fade-out
         setTimeout(() => {
           mainMenu.classList.remove('center-about', 'center-work', 'center-games', 'center-gallery', 'center-contact');
           button.classList.add('active');
@@ -213,7 +179,6 @@ menuButtons.forEach(button => {
           }
         }, 50);
 
-        // Wait for menu slide to complete before showing dropdown
         setTimeout(() => {
           if (button === aboutButton) {
             aboutDropdown.classList.add('show');
@@ -228,7 +193,6 @@ menuButtons.forEach(button => {
           }
         }, 300);
       } else {
-        // Desktop - clear and show immediately
         clearActiveStates();
         button.classList.add('active');
 
@@ -249,13 +213,11 @@ menuButtons.forEach(button => {
         }
       }
     } else {
-      // If clicking the same button, just clear states
       clearActiveStates();
     }
   });
 });
 
-// Close dropdown when clicking outside
 document.addEventListener('click', (e) => {
   const isClickingMenuButton = menuButtons.some(button => button.contains(e.target));
   const isClickingDropdown = dropdowns.some(dropdown => dropdown.contains(e.target));
@@ -265,10 +227,8 @@ document.addEventListener('click', (e) => {
   }
 });
 
-// Reposition dropdowns on window resize
 window.addEventListener('resize', positionAllDropdowns);
 
-// Handle folder item clicks
 document.getElementById('project1').addEventListener('click', () => {
   playClickSound();
   window.open('https://www.matteblackdept.com/', '_blank');
@@ -299,13 +259,11 @@ document.getElementById('email').addEventListener('click', () => {
   window.location.href = 'mailto:ryan@matteblackdept.com';
 });
 
-// Handle Biography click to show browser modal
 document.getElementById('bio').addEventListener('click', () => {
   playClickSound();
   showBrowserModal();
 });
 
-// Handle game clicks
 document.getElementById('assassinsCreed').addEventListener('click', () => {
   playClickSound();
   showDiscScreen('(My favourite line: "Nothing is true. Everything is permitted")');
@@ -316,35 +274,27 @@ document.getElementById('nba2k16').addEventListener('click', () => {
   showDiscScreen('(This was my favourite game tho)');
 });
 
-// Function to show disc insertion screen
 function showDiscScreen(message) {
-  // Clear active states first
   clearActiveStates();
 
-  // Update the disc message
   const discMessage = document.querySelector('.disc-message');
   discMessage.innerHTML = `Please insert disc<br>${message}`;
 
-  // Hide everything except disc screen
   mainMenu.style.display = 'none';
   menuTime.style.display = 'none';
   stage.style.display = 'none';
 
-  // Show disc screen with fade in
   discScreen.style.display = 'flex';
   setTimeout(() => {
     discScreen.classList.add('show');
   }, 10);
 }
 
-// Function to go back to menu
 function goBackToMenu() {
   playClickSound();
 
-  // Hide disc screen with fade out
   discScreen.classList.remove('show');
 
-  // After fade out animation completes, show menu again
   setTimeout(() => {
     discScreen.style.display = 'none';
     mainMenu.style.display = 'flex';
@@ -354,20 +304,15 @@ function goBackToMenu() {
   }, 500);
 }
 
-// Handle go back button click
 goBackButton.addEventListener('click', goBackToMenu);
 
-// Browser modal functions
 function showBrowserModal() {
-  // Clear active states first
   clearActiveStates();
 
-  // Hide main elements
   mainMenu.style.display = 'none';
   menuTime.style.display = 'none';
   stage.style.display = 'none';
 
-  // Show browser modal with fade in
   browserModal.style.display = 'flex';
   setTimeout(() => {
     browserModal.classList.add('show');
@@ -387,40 +332,32 @@ function closeBrowserModal() {
   }, 300);
 }
 
-// Handle browser close button click
 browserClose.addEventListener('click', closeBrowserModal);
 
-// Close browser modal when clicking outside the window
 browserModal.addEventListener('click', (e) => {
   if (e.target === browserModal) {
     closeBrowserModal();
   }
 });
 
-// Close browser modal with Escape key
 document.addEventListener('keydown', (e) => {
   if (browserModal.classList.contains('show') && e.key === 'Escape') {
     closeBrowserModal();
   }
 });
 
-// Gallery functionality
 let galleryImages = [];
 let currentImageIndex = 0;
 
-// Function to load gallery images from gallery/ directory
 async function loadGalleryImages() {
-  // Common image and video extensions
   const mediaExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'mp4'];
   const media = [];
 
-  // Try to load media with common naming patterns (max 10 items)
   for (let i = 1; i <= 10; i++) {
     for (const ext of mediaExtensions) {
       const mediaPath = `gallery/${i}.${ext}`;
       try {
         if (ext === 'mp4') {
-          // Test if video exists by trying to load it
           const video = document.createElement('video');
           await new Promise((resolve, reject) => {
             video.onloadedmetadata = resolve;
@@ -429,7 +366,6 @@ async function loadGalleryImages() {
           });
           media.push({ path: mediaPath, type: 'video' });
         } else {
-          // Test if image exists by trying to load it
           const img = new Image();
           await new Promise((resolve, reject) => {
             img.onload = resolve;
@@ -438,9 +374,8 @@ async function loadGalleryImages() {
           });
           media.push({ path: mediaPath, type: 'image' });
         }
-        break; // Found this numbered media, move to next number
+        break;
       } catch (e) {
-        // Media doesn't exist, try next extension
         continue;
       }
     }
@@ -449,7 +384,6 @@ async function loadGalleryImages() {
   return media;
 }
 
-// Function to render gallery grid
 function renderGallery(media) {
   galleryGrid.innerHTML = '';
 
@@ -484,22 +418,17 @@ function renderGallery(media) {
   });
 }
 
-// Function to show gallery
 async function showGallery() {
-  // Only clear active states on desktop, or if not currently animating on mobile
   if (window.innerWidth > 768 || !galleryButton.classList.contains('active')) {
     clearActiveStates();
   }
 
-  // Hide main elements
   mainMenu.style.display = 'none';
   menuTime.style.display = 'none';
   stage.style.display = 'none';
 
-  // Show gallery screen
   galleryScreen.style.display = 'flex';
 
-  // Always show loading text first
   galleryLoading.style.display = 'flex';
   galleryGrid.style.display = 'none';
 
@@ -507,25 +436,21 @@ async function showGallery() {
     galleryScreen.classList.add('show');
   }, 10);
 
-  // Load images if not loaded yet
   if (galleryImages.length === 0) {
     try {
       galleryImages = await loadGalleryImages();
       renderGallery(galleryImages);
 
-      // Hide loading text and show grid
       galleryLoading.style.display = 'none';
       galleryGrid.style.display = 'grid';
     } catch (e) {
-      console.log('Could not load gallery images:', e);
+      console.log('could not load gallery images:', e);
 
-      // Hide loading text and show error message
       galleryLoading.style.display = 'none';
       galleryGrid.style.display = 'block';
-      galleryGrid.innerHTML = '<p style="color: #fff; text-align: center; padding: 2rem;">No images found in gallery/ directory</p>';
+      galleryGrid.innerHTML = '<p style="color: #fff; text-align: center; padding: 2rem;">no images found in gallery/ directory</p>';
     }
   } else {
-    // Images already loaded, but still show loading briefly for UX
     setTimeout(() => {
       galleryLoading.style.display = 'none';
       galleryGrid.style.display = 'grid';
@@ -533,7 +458,6 @@ async function showGallery() {
   }
 }
 
-// Function to close gallery
 function closeGallery() {
   playClickSound();
 
@@ -547,12 +471,10 @@ function closeGallery() {
   }, 500);
 }
 
-// Function to open lightbox
 function openLightbox(mediaIndex) {
   currentImageIndex = mediaIndex;
   const mediaItem = galleryImages[currentImageIndex];
 
-  // Remove existing content
   const existingMedia = lightbox.querySelector('.lightbox-image, .lightbox-video');
   if (existingMedia) {
     existingMedia.remove();
@@ -591,7 +513,6 @@ function openLightbox(mediaIndex) {
   }, 10);
 }
 
-// Function to close lightbox
 function closeLightbox() {
   playClickSound();
 
@@ -602,34 +523,29 @@ function closeLightbox() {
   }, 300);
 }
 
-// Function to show previous image
 function showPrevImage() {
   playClickSound();
   currentImageIndex = currentImageIndex > 0 ? currentImageIndex - 1 : galleryImages.length - 1;
   openLightbox(currentImageIndex);
 }
 
-// Function to show next image
 function showNextImage() {
   playClickSound();
   currentImageIndex = currentImageIndex < galleryImages.length - 1 ? currentImageIndex + 1 : 0;
   openLightbox(currentImageIndex);
 }
 
-// Event listeners for gallery
 galleryClose.addEventListener('click', closeGallery);
 lightboxClose.addEventListener('click', closeLightbox);
 lightboxPrev.addEventListener('click', showPrevImage);
 lightboxNext.addEventListener('click', showNextImage);
 
-// Close lightbox when clicking on background
 lightbox.addEventListener('click', (e) => {
   if (e.target === lightbox) {
     closeLightbox();
   }
 });
 
-// Keyboard navigation for lightbox
 document.addEventListener('keydown', (e) => {
   if (lightbox.classList.contains('show')) {
     switch (e.key) {
@@ -652,10 +568,8 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// Lazy load click audio on first user interaction
 let clickAudio;
 
-// Initialize audio on first touch/click for better mobile performance
 function initAudio() {
   if (!clickAudio) {
     clickAudio = new Audio('click.mp3');
@@ -666,9 +580,7 @@ function initAudio() {
 document.addEventListener('touchstart', initAudio, { once: true, passive: true });
 document.addEventListener('click', initAudio, { once: true });
 
-// Function to play click sound
 function playClickSound() {
-  // Disable click sound on mobile (768px and below)
   if (window.innerWidth <= 768) {
     return;
   }
@@ -676,11 +588,10 @@ function playClickSound() {
   if (!clickAudio) {
     initAudio();
   }
-  clickAudio.currentTime = 0; // Reset to start for rapid clicks
-  clickAudio.play().catch(e => console.log('Click audio play failed:', e));
+  clickAudio.currentTime = 0;
+  clickAudio.play().catch(e => console.log('click audio play failed:', e));
 }
 
-// Touch/swipe handling for mobile
 let touchStartX = 0;
 let touchStartY = 0;
 let touchEndX = 0;
@@ -702,14 +613,11 @@ function handleSwipe() {
   const deltaY = touchEndY - touchStartY;
   const minSwipeDistance = 50;
 
-  // Only handle horizontal swipes that are primarily horizontal
   if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > minSwipeDistance) {
-    // Only handle swipes on mobile and when menu is visible
     if (window.innerWidth <= 768 && mainMenu.classList.contains('show')) {
       const currentActive = document.querySelector('.menu-button.active');
 
       if (deltaX > 0) {
-        // Swipe right - go to previous item
         if (currentActive === workButton) {
           aboutButton.click();
         } else if (currentActive === gamesButton) {
@@ -720,7 +628,6 @@ function handleSwipe() {
           galleryButton.click();
         }
       } else {
-        // Swipe left - go to next item
         if (currentActive === aboutButton) {
           workButton.click();
         } else if (currentActive === workButton) {
@@ -734,3 +641,207 @@ function handleSwipe() {
     }
   }
 }
+
+// Wikipedia page functionality
+function initWikipediaPage() {
+  const wikiSearch = document.getElementById('wikiSearch');
+  const wikiArticle = document.querySelector('.wiki-article');
+  const wikiTocLinks = document.querySelectorAll('.wiki-toc-link');
+  const wikiEditLinks = document.querySelectorAll('.wiki-edit');
+  const wikiSections = document.querySelectorAll('.wiki-section');
+
+  // Search functionality
+  if (wikiSearch && wikiArticle) {
+    wikiSearch.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase().trim();
+
+      if (!searchTerm) {
+        // Clear all highlights
+        const marks = wikiArticle.querySelectorAll('mark');
+        marks.forEach(mark => {
+          const parent = mark.parentNode;
+          parent.replaceChild(document.createTextNode(mark.textContent), mark);
+          parent.normalize();
+        });
+        return;
+      }
+
+      // Clear previous highlights
+      const marks = wikiArticle.querySelectorAll('mark');
+      marks.forEach(mark => {
+        const parent = mark.parentNode;
+        parent.replaceChild(document.createTextNode(mark.textContent), mark);
+        parent.normalize();
+      });
+
+      // Highlight new matches
+      const walker = document.createTreeWalker(
+        wikiArticle,
+        NodeFilter.SHOW_TEXT,
+        {
+          acceptNode: (node) => {
+            if (node.parentElement.tagName === 'MARK' ||
+                node.parentElement.tagName === 'SCRIPT' ||
+                node.parentElement.tagName === 'STYLE') {
+              return NodeFilter.FILTER_REJECT;
+            }
+            return NodeFilter.FILTER_ACCEPT;
+          }
+        }
+      );
+
+      const nodesToHighlight = [];
+      while (walker.nextNode()) {
+        const node = walker.currentNode;
+        const text = node.textContent.toLowerCase();
+        if (text.includes(searchTerm)) {
+          nodesToHighlight.push(node);
+        }
+      }
+
+      nodesToHighlight.forEach(node => {
+        const text = node.textContent;
+        const regex = new RegExp(`(${searchTerm})`, 'gi');
+        const parts = text.split(regex);
+
+        if (parts.length > 1) {
+          const fragment = document.createDocumentFragment();
+          parts.forEach(part => {
+            if (part.toLowerCase() === searchTerm) {
+              const mark = document.createElement('mark');
+              mark.textContent = part;
+              fragment.appendChild(mark);
+            } else if (part) {
+              fragment.appendChild(document.createTextNode(part));
+            }
+          });
+          node.parentNode.replaceChild(fragment, node);
+        }
+      });
+    });
+  }
+
+  // TOC active link tracking
+  if (wikiTocLinks.length > 0 && wikiSections.length > 0) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const id = entry.target.id;
+            wikiTocLinks.forEach(link => {
+              link.classList.remove('active');
+              if (link.getAttribute('href') === `#${id}`) {
+                link.classList.add('active');
+              }
+            });
+          }
+        });
+      },
+      { threshold: 0.5, rootMargin: '-100px 0px -50% 0px' }
+    );
+
+    wikiSections.forEach(section => observer.observe(section));
+
+    // Smooth scroll for TOC links
+    wikiTocLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href').substring(1);
+        const targetSection = document.getElementById(targetId);
+        if (targetSection) {
+          targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  }
+
+  // Edit button flash effect
+  if (wikiEditLinks.length > 0) {
+    wikiEditLinks.forEach(editLink => {
+      editLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        const section = editLink.closest('.wiki-section');
+        if (section) {
+          section.classList.add('flash');
+          setTimeout(() => section.classList.remove('flash'), 800);
+        }
+      });
+    });
+  }
+}
+
+// Wikipedia image lightbox functionality
+function initWikiImageLightbox() {
+  const wikiLightbox = document.getElementById('wikiLightbox');
+  const wikiLightboxImage = document.getElementById('wikiLightboxImage');
+  const wikiLightboxCaption = document.getElementById('wikiLightboxCaption');
+  const wikiLightboxClose = document.getElementById('wikiLightboxClose');
+  const wikiImages = document.querySelectorAll('.wiki-figure img, .wiki-infobox__img img');
+
+  if (!wikiLightbox) return;
+
+  // Add click handlers to all wiki images
+  wikiImages.forEach(img => {
+    img.addEventListener('click', (e) => {
+      e.preventDefault();
+      const caption = img.closest('.wiki-figure')?.querySelector('figcaption')?.textContent ||
+                      img.alt || '';
+
+      wikiLightboxImage.src = img.src;
+      wikiLightboxImage.alt = img.alt;
+      wikiLightboxCaption.textContent = caption;
+
+      wikiLightbox.style.display = 'flex';
+      setTimeout(() => {
+        wikiLightbox.classList.add('show');
+      }, 10);
+    });
+  });
+
+  // Close lightbox
+  function closeWikiLightbox() {
+    wikiLightbox.classList.remove('show');
+    setTimeout(() => {
+      wikiLightbox.style.display = 'none';
+    }, 300);
+  }
+
+  wikiLightboxClose.addEventListener('click', closeWikiLightbox);
+
+  wikiLightbox.addEventListener('click', (e) => {
+    if (e.target === wikiLightbox) {
+      closeWikiLightbox();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (wikiLightbox.classList.contains('show') && e.key === 'Escape') {
+      closeWikiLightbox();
+    }
+  });
+}
+
+// Back to top functionality
+function initBackToTop() {
+  const backToTop = document.getElementById('backToTop');
+  if (backToTop) {
+    backToTop.addEventListener('click', (e) => {
+      e.preventDefault();
+      const browserContent = document.querySelector('.browser-content');
+      if (browserContent) {
+        browserContent.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+  }
+}
+
+// Initialize Wikipedia page when browser modal is shown
+const originalShowBrowserModal = showBrowserModal;
+showBrowserModal = function() {
+  originalShowBrowserModal();
+  setTimeout(() => {
+    initWikipediaPage();
+    initWikiImageLightbox();
+    initBackToTop();
+  }, 100);
+};
