@@ -566,6 +566,118 @@ document.addEventListener('keydown', (e) => {
       closeGallery();
     }
   }
+
+  // Arrow key navigation for menu on desktop
+  if (window.innerWidth > 768 && mainMenu.classList.contains('show')) {
+    const currentActive = document.querySelector('.menu-button.active');
+    const activeDropdown = dropdowns.find(dropdown => dropdown.classList.contains('show'));
+
+    // Down arrow - navigate through dropdown items
+    if (e.key === 'ArrowDown' && activeDropdown) {
+      e.preventDefault();
+      const items = Array.from(activeDropdown.querySelectorAll('.dropdown-item'));
+      const currentSelected = activeDropdown.querySelector('.dropdown-item.keyboard-selected');
+
+      if (!currentSelected) {
+        // Select first item
+        items[0]?.classList.add('keyboard-selected');
+        playClickSound();
+      } else {
+        // Move to next item
+        const currentIndex = items.indexOf(currentSelected);
+        const nextIndex = (currentIndex + 1) % items.length;
+        currentSelected.classList.remove('keyboard-selected');
+        items[nextIndex]?.classList.add('keyboard-selected');
+        playClickSound();
+      }
+      return;
+    }
+
+    // Up arrow - navigate backwards through dropdown items
+    if (e.key === 'ArrowUp' && activeDropdown) {
+      e.preventDefault();
+      const items = Array.from(activeDropdown.querySelectorAll('.dropdown-item'));
+      const currentSelected = activeDropdown.querySelector('.dropdown-item.keyboard-selected');
+
+      if (!currentSelected) {
+        // Select last item
+        items[items.length - 1]?.classList.add('keyboard-selected');
+        playClickSound();
+      } else {
+        // Move to previous item
+        const currentIndex = items.indexOf(currentSelected);
+        const prevIndex = currentIndex === 0 ? items.length - 1 : currentIndex - 1;
+        currentSelected.classList.remove('keyboard-selected');
+        items[prevIndex]?.classList.add('keyboard-selected');
+        playClickSound();
+      }
+      return;
+    }
+
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+      // Clear any dropdown selections when navigating horizontally
+      dropdowns.forEach(dropdown => {
+        dropdown.querySelectorAll('.dropdown-item').forEach(item => {
+          item.classList.remove('keyboard-selected');
+        });
+      });
+
+      // If nothing is selected, start at Games
+      if (!currentActive) {
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+          gamesButton.click();
+        }
+        return;
+      }
+
+      let nextButton = null;
+
+      if (e.key === 'ArrowLeft') {
+        if (currentActive === workButton) {
+          nextButton = aboutButton;
+        } else if (currentActive === gamesButton) {
+          nextButton = workButton;
+        } else if (currentActive === galleryButton) {
+          nextButton = gamesButton;
+        } else if (currentActive === contactButton) {
+          nextButton = galleryButton;
+        }
+      } else if (e.key === 'ArrowRight') {
+        if (currentActive === aboutButton) {
+          nextButton = workButton;
+        } else if (currentActive === workButton) {
+          nextButton = gamesButton;
+        } else if (currentActive === gamesButton) {
+          nextButton = galleryButton;
+        } else if (currentActive === galleryButton) {
+          nextButton = contactButton;
+        }
+      }
+
+      // Handle gallery button specially - only highlight, don't open
+      if (nextButton === galleryButton) {
+        clearActiveStates();
+        galleryButton.classList.add('active');
+        playClickSound();
+      } else if (nextButton) {
+        nextButton.click();
+      }
+    } else if (e.key === 'Enter') {
+      // Check if a dropdown item is selected
+      if (activeDropdown) {
+        const selectedItem = activeDropdown.querySelector('.dropdown-item.keyboard-selected');
+        if (selectedItem) {
+          selectedItem.click();
+          return;
+        }
+      }
+
+      // Enter key opens gallery if it's highlighted
+      if (currentActive === galleryButton) {
+        showGallery();
+      }
+    }
+  }
 });
 
 let clickAudio;

@@ -483,15 +483,18 @@ body.loaded::before {
   white-space: nowrap;
 }
 
-.dropdown-item:hover {
+.dropdown-item:hover,
+.dropdown-item.keyboard-selected {
   transform: translateX(10px);
 }
 
-.dropdown-item:hover .folder-icon {
+.dropdown-item:hover .folder-icon,
+.dropdown-item.keyboard-selected .folder-icon {
   filter: drop-shadow(1px 1px 3px rgba(0,0,0,0.6)) drop-shadow(0 0 20px rgba(128,128,128,1)) brightness(1.8);
 }
 
-.dropdown-item:hover .folder-title {
+.dropdown-item:hover .folder-title,
+.dropdown-item.keyboard-selected .folder-title {
   text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
 }
 
