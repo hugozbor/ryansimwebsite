@@ -1994,12 +1994,26 @@ mark {
 
 @media (max-width: 768px) {
   .wiki-lightbox-close {
-    top: -2.5rem;
+    top: 1rem;
+    right: 1rem;
     font-size: 2rem;
   }
 
   .wiki-lightbox-caption {
-    font-size: 12px;
-    padding: 6px 12px;
+    font-size: 14px;
+    padding: 10px 16px;
+    margin-top: 8px;
+    display: block;
+    width: calc(100vw - 2rem);
+    box-sizing: border-box;
+  }
+
+  .wiki-lightbox-image {
+    max-height: 70vh;
+  }
+
+  .wiki-lightbox-content {
+    max-height: 95vh;
+    padding: 1rem;
   }
 }
